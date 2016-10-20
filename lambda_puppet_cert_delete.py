@@ -4,7 +4,7 @@ def worker_handler(event, context):
 
     s3_client = boto3.client('s3')
     #Download private key file from secure S3 bucket
-    s3_client.download_file('motes-key','keypair-311.pem', '/tmp/keyname.pem')
+    s3_client.download_file('motes-keys','keypair-311.pem', '/tmp/keyname.pem')
 
     keyfile = paramiko.RSAKey.from_private_key_file("/tmp/keyname.pem")
     sshcommand = paramiko.SSHClient()
