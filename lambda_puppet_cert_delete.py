@@ -29,7 +29,7 @@ def worker_handler(event, context):
             instName=inst['PrivateDnsName']
 
     print "Connecting to " + masterIP
-    sshcommand.connect( hostname = host, username = "ec2-user", pkey = keyfile )
+    sshcommand.connect( hostname = masterIP, username = "ec2-user", pkey = keyfile )
     print "Connected to " + masterIP
 
     command = "sudo docker exec puppetmaster /opt/puppletlabs/bin/puppet node clean " + instName
