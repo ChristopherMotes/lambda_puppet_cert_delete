@@ -9,13 +9,19 @@ def worker_handler(event, context):
     keyfile = paramiko.RSAKey.from_private_key_file("/tmp/keyname.pem")
     sshcommand = paramiko.SSHClient()
     sshcommand.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    # get puppetmaster instance name
+    # get puppetmaster instance IP
+    masterDICT=client.describe_instances(
+        Filters=[{'Name':'tag:Name','Values':['puppetamster']}]
+    ) 
+
+    for reservations in masterDICT['Reservations']:
+        for inst in reservations['Instances']:
+        masterIP=inst['PrivateIpAddress']
     
 
-    host=event['IP']
-    print "Connecting to " + host
+    print "Connecting to " + masterIP
     sshcommand.connect( hostname = host, username = "ec2-user", pkey = keyfile )
-    print "Connected to " + host
+    print "Connected to " + masterIP
 
     command = "sudo docker exec puppetmaster /opt/puppletlabs/bin/puppet node clean " + instName
     print "Executing {}".format(command)
