@@ -18,6 +18,15 @@ def worker_handler(event, context):
         for inst in reservations['Instances']:
         masterIP=inst['PrivateIpAddress']
     
+    # get client name
+    instID=event['id']
+    clientnameDICT=client.describe_instances(
+        InstanceIds = [instID]
+    )
+    for reservations in clientnameDICT['Reservations']:
+        for inst in reservations['Instances']:
+            print inst
+            instName=inst['PrivateDnsName']
 
     print "Connecting to " + masterIP
     sshcommand.connect( hostname = host, username = "ec2-user", pkey = keyfile )
@@ -25,7 +34,7 @@ def worker_handler(event, context):
 
     command = "sudo docker exec puppetmaster /opt/puppletlabs/bin/puppet node clean " + instName
     print "Executing {}".format(command)
-    stdin , stdout, stderr = c.exec_command(command)
+    stdin , stdout, stderr = sshcommand.exec_command(command)
     print stdout.read()
     print stderr.read()
 
