@@ -16,7 +16,7 @@ def worker_handler(event, context):
 
     for reservations in masterDICT['Reservations']:
         for inst in reservations['Instances']:
-        masterIP=inst['PrivateIpAddress']
+            masterIP=inst['PrivateIpAddress']
     
     # get client name
     instID=event['id']
@@ -25,7 +25,6 @@ def worker_handler(event, context):
     )
     for reservations in clientnameDICT['Reservations']:
         for inst in reservations['Instances']:
-            print inst
             instName=inst['PrivateDnsName']
 
     print "Connecting to " + masterIP
