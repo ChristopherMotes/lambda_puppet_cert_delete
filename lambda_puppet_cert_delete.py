@@ -3,6 +3,7 @@ import paramiko
 def worker_handler(event, context):
 
     s3_client = boto3.client('s3')
+    ec2_client = boto3.client('ec2')
     #Download private key file from secure S3 bucket
     s3_client.download_file('motes-keys','keypair-311.pem', '/tmp/keyname.pem')
 
@@ -10,7 +11,7 @@ def worker_handler(event, context):
     sshcommand = paramiko.SSHClient()
     sshcommand.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     # get puppetmaster instance IP
-    masterDICT=client.describe_instances(
+    masterDICT=ec2_client.describe_instances(
         Filters=[{'Name':'tag:Name','Values':['puppetamster']}]
     ) 
 
@@ -20,7 +21,7 @@ def worker_handler(event, context):
     
     # get client name
     instID=event['id']
-    clientnameDICT=client.describe_instances(
+    clientnameDICT=ec2_client.describe_instances(
         InstanceIds = [instID]
     )
     for reservations in clientnameDICT['Reservations']:
