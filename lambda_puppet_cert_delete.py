@@ -32,7 +32,7 @@ def worker_handler(event, context):
     sshcommand.connect( hostname = masterIP, username = "ec2-user", pkey = keyfile )
     print "Connected to " + masterIP
 
-    command = "sudo docker exec puppetmaster /opt/puppletlabs/bin/puppet node clean " + instName
+    command = "sudo docker exec puppetmaster /opt/puppetlabs/bin/puppet node clean " + instName
     print "Executing {}".format(command)
     stdin , stdout, stderr = sshcommand.exec_command(command)
     print stdout.read()
