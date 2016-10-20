@@ -20,14 +20,7 @@ def worker_handler(event, context):
             masterIP=inst['PrivateIpAddress']
     
     # get client name
-    instID=event['id']
-    clientnameDICT=ec2_client.describe_instances(
-        InstanceIds = [instID]
-    )
-    for reservations in clientnameDICT['Reservations']:
-        for inst in reservations['Instances']:
-            instName=inst['PrivateDnsName']
-
+    instName=event['name']
     print "Connecting to " + masterIP
     sshcommand.connect( hostname = masterIP, username = "ec2-user", pkey = keyfile )
     print "Connected to " + masterIP
