@@ -20,10 +20,14 @@ def worker_handler(event, context):
             masterIP=inst['PrivateIpAddress']
     
     # get client name
-    instName=event['name']
+    instID=event['id']
     print "Connecting to " + masterIP
     sshcommand.connect( hostname = masterIP, username = "ec2-user", pkey = keyfile )
     print "Connected to " + masterIP
+    command = "sudo docker exec puppetmaster /opt/puppetlabs/bin/puppet node clean " + instName
+    print "Executing {}".format(command)
+    stdin , stdout, stderr = sshcommand.exec_command(command)
+    instName=stdout
 
     command = "sudo docker exec puppetmaster /opt/puppetlabs/bin/puppet node clean " + instName
     print "Executing {}".format(command)
