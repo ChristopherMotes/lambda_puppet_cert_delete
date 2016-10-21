@@ -15,10 +15,10 @@ def worker_handler(event, context):
         Filters=[{'Name':'tag:Name','Values':['puppetamster']}]
     ) 
 
-    for reservations in masterDICT['Reservations']:
-        for inst in reservations['Instances']:
-            masterIP=inst['PrivateIpAddress']
-    
+    #for reservations in masterDICT['Reservations']:
+    #    for inst in reservations['Instances']:
+    #        masterIP=inst['PrivateIpAddress']
+    masterIP="192.168.0.50"
     # get client name
     instID=event['id']
     print "Connecting to " + masterIP
