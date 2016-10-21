@@ -15,3 +15,5 @@ zip -r ~/lambda_puppet_cert_delete.zip *
 cd ../../../lib64/python2.7/site-packages/
 zip -r ~/lambda_puppet_cert_delete.zip *
 ```
+```
+
