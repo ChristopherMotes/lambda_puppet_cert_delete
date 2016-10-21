@@ -27,7 +27,7 @@ def worker_handler(event, context):
     command = "sudo curl -sX GET 'https://puppetdb.maint.motes:8081/pdb/query/v4/fact-contents'  --tlsv1   --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem   --cert /etc/puppetlabs/puppet/ssl/certs/`uname -n`.pem   --key /etc/puppetlabs/puppet/ssl/private_keys/`uname -n`.pem --data-urlencode 'query=[\"=\", \"value\", \"" + instID  + "\"]]' | awk -F '\"|:' ' { print $5 } '"
     print "Executing {}".format(command)
     stdin , stdout, stderr = sshcommand.exec_command(command)
-    instName=stdout
+    instName=stdout.read()
 
     command = "sudo docker exec puppetmaster /opt/puppetlabs/bin/puppet node clean " + instName
     print "Executing {}".format(command)
